@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NXR8KKVBMF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NXR8KKVBMF');
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            padding: 30px;
+            line-height: 1.6;
+        }
+
+         /* main.css */
+        body {
+            background-color: white;
+            color: black;
+        }
+
+        .dark-mode {
+            background-color: #27272a;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Easter egg -->
+    <button type="button" class="fa" style="float: right; width: 1.3rem;" onclick="playAudio()">&#x23f5;</button><br>
+    <audio id="myAudio">
+        <source src="MJ.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Dark mode switch -->
+    <button type="button" style="float: right; width: 1.3rem;" onclick="darkMode();">&#9728</button><br>
+
+    <head>Markdown header sorter</head><br>
+    <br>
+
+    <!-- Load example -->
+    <button type="button" onclick="showExample();">Load example</button><br>
+
+    <!-- Input -->
+    <textarea id="textAreaInput" oninput="showOutput();" rows="30" cols="100" autocomplete="off" placeholder="Input markdown text..." autofocus></textarea>
+    <!-- Output -->
+    <textarea id="textAreaOutput" rows="30" cols="100" autocomplete="off" placeholder="Result..."></textarea>
+
+    <!-- Header level select -->
+    <form>
+      <strong>Select the header level to order by: </strong><br>
+      <small>The text will be sorted by a <u>single selected</u> header level (see example)</small><br>
+      <input type="radio" id="hlevel1" name="h" value="1" onclick="showOutput();">
+      <label># Level 1 header</label><br>
+      <input type="radio" id="hlevel2" name="h" value="2" onclick="showOutput();" checked>
+      <label>## Level 2 header</label><br>  
+      <input type="radio" id="hlevel3" name="h" value="3" onclick="showOutput();">
+      <label>### Level 3 header</label><br>
+      <input type="radio" id="hlevel4" name="h" value="4" onclick="showOutput();">
+      <label>#### Level 4 header</label>
+    </form>   
+
+<!-- js -->
+<script>
+
+    // Dark mode
+    function darkMode() {
+    const wasDarkmode = localStorage.getItem('darkmode') === 'true';
+    localStorage.setItem('darkmode', !wasDarkmode);
+    const element = document.body;
+    element.classList.toggle('dark-mode', !wasDarkmode);
+    }
+
+    function onloading() {
+    document.body.classList.toggle('dark-mode', localStorage.getItem('darkmode') === 'true');
+    }
+
+    onloading()
+
+    // Play music
+    var x = document.getElementById("myAudio"); 
+    
+    function playAudio() { 
+    x.play(); 
+    } 
+
+    function showExample()
+    {
+        var exampleInput = `
+## BA (third)
+
+BA text 1
+BA text 2
+
+## AB (first)
+
+AB text 1
+AB text 2
+
+## AZ (second)
+
+AZ text 1
+AZ text 2
+
+### Should be under AZ
+
+## ZA (fourth)
+
+ZA text 1
+ZA test 2
+`
+
+        document.getElementById("textAreaInput").value = exampleInput
+
+        showOutput()
+
+    }
+
+    function calc()
+    {
+        // Checkbox click --> header level variable
+        if (document.getElementById("hlevel1").checked == true)
+        {hlevel = "\n# ";}
+        else if (document.getElementById("hlevel2").checked == true)
+        {hlevel = "\n## ";}
+        else if (document.getElementById("hlevel3").checked == true)
+        {hlevel = "\n### ";}
+        else if (document.getElementById("hlevel4").checked == true)
+        {hlevel = "\n#### ";}
+
+        return hlevel
+    }
+
+    function textProcessing()
+    {
+        var inputValue = document.getElementById("textAreaInput").value;
+        var splitString = inputValue.split(calc());
+        
+        // Strip the first array element that is always an empty string ""
+        splitString.splice(0, 1)
+
+        // Adding back the hlevel that was stripped when splitting the string
+        for (var i=0; i<splitString.length; i++) {
+            splitString[i] = calc() + splitString[i];
+        }
+        
+        // Sorting
+        var sortedString = splitString.sort();
+        
+        // Turn array into string
+        var joinedString = splitString.join("")
+
+        return joinedString
+    }
+
+    function showOutput()
+    {
+    document.getElementById("textAreaOutput").value = textProcessing();
+    }
+
+    // Cookies
+    function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+    }
+
+</script>
+
+<br>
+<strong>Requirements:</strong>
+<br>Each header has to have a newline above it to be sorted, for example:<br>
+
+<br><u>Correct:</u><br>
+"<br>
+# Topic<br>
+<br>
+## My topic<br>
+<br>
+## My other topic<br>
+"<br>
+<br>
+<u>Incorrect:</u><br>
+"<br>
+# Topic<br>
+## My topic<br>
+<br>
+## My other topic<br>
+"<br>
+
+<br><small>Fork on <a href="https://github.com/LukasDZN/Markdown-header-sorter">GitHub</a><small>
+
+</body>
+</html>
+
+<!-- Notes:
+Javascript innerHTML does update the text in textarea but it doesn't show yours changes in the browser window; if you use it for the second time. for example, If you had some button that updates the text in textarea; this button would insert text for the first time but on second time although it would insert text in textarea (as can be proved by firebug or chrome developer tool) but this would not be shown in browser window. Instead if you use value this would be shown in browser (I had test it in chrome and firefox). -->

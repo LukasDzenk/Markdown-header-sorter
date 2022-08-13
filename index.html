@@ -1,110 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NXR8KKVBMF"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+	<head>
+		<!-- Basic Page Needs -->
+		<meta charset="utf-8" />
+		<title>Markdown header sorter</title>
+		<meta name="description" content="" />
+		<meta name="author" content="" />
 
-      gtag('config', 'G-NXR8KKVBMF');
-    </script>
+		<!-- Mobile Specific Metas -->
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <style>
-        * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        }
+		<!-- FONT -->
+		<link
+			href="//fonts.googleapis.com/css?family=Raleway:400,300,600"
+			rel="stylesheet"
+			type="text/css"
+		/>
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 15px;
-            padding: 30px;
-            line-height: 1.6;
-        }
+		<!-- CSS -->
+		<link rel="stylesheet" href="css/normalize.css" />
+		<link rel="stylesheet" href="css/style.css" />
 
-         /* main.css */
-        body {
-        background-color: white;
-        color: black;
-        }
+		<!-- Favicon -->
+		<link rel="icon" type="image/png" href="images/favicon-16.png" />
+	</head>
 
-        .dark-mode {
-        background-color: #27272a;
-        color: white;
-}
-    </style>
+	<body>
+		<!-- Primary Page Layout -->
+		<div class="grid-container full">
+			<h1># Markdown header sorter</h1>
 
-</head>
+			<hr />
 
-<body>
+			<div class="grid-container halves">
+				<div class="grid-container halves twoButtonFit">
+					<!-- Load example -->
+					<button id="loadExampleButtonId">Load example</button>
+					<div class="grid-container halves twoButtonFit">
+						<button id="toggleWrapButtonId">Wrap</button>
+						<button id="clearButtonId">Clear</button>
+					</div>
+				</div>
 
-    <!-- Easter egg -->
-    <button type="button" class="fa" style="float: right; width: 1.3rem;" onclick="playAudio()">&#x23f5;</button><br>
-    <audio id="myAudio">
-        <source src="MJ.mp3" type="audio/mpeg">
-    </audio>
+				<button id="copyResultButtonId">Copy result</button>
 
-    <!-- Dark mode switch -->
-    <button type="button" style="float: right; width: 1.3rem;" onclick="darkMode();">&#9728</button><br>
+				<!-- Input -->
+				<textarea
+					id="textAreaInput"
+					oninput="inputTextProcessing();"
+					rows="30"
+					cols="100"
+					autocomplete="off"
+					placeholder="Input markdown text..."
+					style="white-space: normal"
+					spellcheck="true"
+					autofocus
+				></textarea>
+				<!-- Output -->
+				<textarea
+					id="textAreaOutput"
+					rows="30"
+					cols="100"
+					autocomplete="off"
+					placeholder="Live result..."
+					style="white-space: normal"
+					spellcheck="true"
+				></textarea>
 
-    <head>Markdown header sorter</head><br>
-    <br>
+				<!-- Header level select -->
+				<form id="settingsFormId">
+					<div>
+						<h2>Select the header level to order by:</h2>
+					</div>
 
-    <!-- Load example -->
-    <button type="button" onclick="showExample();">Load example</button><br>
+					<br />
+					<div class="grid-container halves twoButtonFit">
+						<div>
+							<button
+								type="button"
+								class="radioButton activeRadioButton"
+								id="headerAllLevelButtonId"
+								value="all"
+							>
+								All headers
+							</button>
+							<button
+								type="button"
+								class="radioButton"
+								id="headerLevel1ButtonId"
+								value="#"
+							>
+								# Level 1 header only
+							</button>
+							<button
+								type="button"
+								class="radioButton"
+								id="headerLevel2ButtonId"
+								value="##"
+							>
+								## Level 2 header only
+							</button>
+							<button
+								type="button"
+								class="radioButton"
+								id="headerLevel3ButtonId"
+								value="###"
+							>
+								### Level 3 header only
+							</button>
+							<button
+								type="button"
+								class="radioButton"
+								id="headerLevel4ButtonId"
+								value="####"
+							>
+								#### Level 4 header only
+							</button>
+							<button
+								type="button"
+								class="radioButton"
+								id="headerLevel5ButtonId"
+								value="#####"
+							>
+								##### Level 5 header only
+							</button>
+							<button
+								type="button"
+								class="radioButton"
+								id="headerLevel6ButtonId"
+								value="######"
+							>
+								###### Level 6 header only
+							</button>
+						</div>
+					</div>
+				</form>
 
-    <!-- Input -->
-    <textarea id="textAreaInput" oninput="showOutput();" rows="30" cols="100" autocomplete="off" placeholder="Input markdown text..." autofocus></textarea>
-    <!-- Output -->
-    <textarea id="textAreaOutput" rows="30" cols="100" autocomplete="off" placeholder="Result..."></textarea>
+				<div id="requirementsDivId">
+					<h2>Requirements:</h2>
+					<br />Each header has to have a newline above it to be
+					sorted, for example:<br />
 
-    <!-- Header level select -->
-    <form>
-      <strong>Select the header level to order by: </strong><br>
-      <small>The text will be sorted by a <u>single selected</u> header level (see example)</small><br>
-      <input type="radio" id="hlevel1" name="h" value="1" onclick="showOutput();">
-      <label># Level 1 header</label><br>
-      <input type="radio" id="hlevel2" name="h" value="2" onclick="showOutput();" checked>
-      <label>## Level 2 header</label><br>  
-      <input type="radio" id="hlevel3" name="h" value="3" onclick="showOutput();">
-      <label>### Level 3 header</label><br>
-      <input type="radio" id="hlevel4" name="h" value="4" onclick="showOutput();">
-      <label>#### Level 4 header</label>
-    </form>   
+					<br />
+					<h3 id="s">Correct:</h3>
+					<br />
+					<pre><code># Topic
 
-<!-- js -->
-<script>
+## My topic
+							
+## My other topic</code></pre>
+					<h3>Incorrect:</h3>
+					<br />
+					<pre><code># Topic
+## My topic
+							
+## My other topic</code></pre>
+				</div>
+			</div>
+		</div>
 
-    // Dark mode
-    function darkMode() {
-    const wasDarkmode = localStorage.getItem('darkmode') === 'true';
-    localStorage.setItem('darkmode', !wasDarkmode);
-    const element = document.body;
-    element.classList.toggle('dark-mode', !wasDarkmode);
-    }
+		<br />
 
-    function onloading() {
-    document.body.classList.toggle('dark-mode', localStorage.getItem('darkmode') === 'true');
-    }
+		<br />
+		<div style="text-align: right">
+			<small
+				>Fork on
+				<a href="https://github.com/LukasDZN/Markdown-header-sorter"
+					>GitHub</a
+				></small
+			>
+		</div>
 
-    onloading()
+		<!-- End Document -->
 
-    // Play music
-    var x = document.getElementById("myAudio"); 
-    
-    function playAudio() { 
-    x.play(); 
-    } 
+		<!-- js -->
+		<script>
+			// Constants
+			const textAreaInput = document.getElementById('textAreaInput');
+			const textAreaOutput = document.getElementById('textAreaOutput');
+			// const textAreaInputValue = textAreaInput.value;
+			// const textAreaOutputValue = textAreaOutput.value;
 
-    function showExample()
-    {
-        var exampleInput = `
+			// Load example button
+			const loadExampleButton = document.getElementById(
+				'loadExampleButtonId'
+			);
+			const exampleInput = `
 ## BA (third)
 
 BA text 1
@@ -126,107 +207,340 @@ AZ text 2
 
 ZA text 1
 ZA test 2
-`
+`;
+			loadExampleButton.addEventListener('click', function () {
+				textAreaInput.value = exampleInput;
+				inputTextProcessing();
+			});
 
-        document.getElementById("textAreaInput").value = exampleInput
+			// Wrap button
+			const toggleWrapButton =
+				document.getElementById('toggleWrapButtonId');
+			toggleWrapButton.addEventListener('click', function () {
+				if (textAreaInput.style.whiteSpace === 'normal') {
+					textAreaInput.style.whiteSpace = 'nowrap';
+					textAreaOutput.style.whiteSpace = 'nowrap';
+					// Set localStorage
+					localStorage.setItem('wrap', 'nowrap');
+				} else {
+					textAreaInput.style.whiteSpace = 'normal';
+					textAreaOutput.style.whiteSpace = 'normal';
+					// Set localStorage
+					localStorage.setItem('wrap', 'normal');
+				}
+			});
+			// Retrieve wrap localStorage setting (default is normal)
+			if (localStorage.getItem('wrap') === 'nowrap') {
+				textAreaInput.style.whiteSpace = 'nowrap';
+				textAreaOutput.style.whiteSpace = 'nowrap';
+			}
 
-        showOutput()
+			// Clear button
+			const clearButton = document.getElementById('clearButtonId');
+			clearButton.addEventListener('click', function () {
+				textAreaInput.value = '';
+				textAreaOutput.value = '';
+			});
 
-    }
+			// Copy result to clipboard button
+			const copyButton = document.getElementById('copyResultButtonId');
+			copyButton.addEventListener('click', function () {
+				textAreaOutput.select();
+				document.execCommand('copy');
+			});
 
-    function calc()
-    {
-        // Checkbox click --> header level variable
-        if (document.getElementById("hlevel1").checked == true)
-        {hlevel = "\n# ";}
-        else if (document.getElementById("hlevel2").checked == true)
-        {hlevel = "\n## ";}
-        else if (document.getElementById("hlevel3").checked == true)
-        {hlevel = "\n### ";}
-        else if (document.getElementById("hlevel4").checked == true)
-        {hlevel = "\n#### ";}
+			// Radio buttons
+			const radioButtons = document.querySelectorAll('.radioButton');
+			// Retrieve radio buttons localStorage setting (default is All headers)
+			const localStorageHeaderLevel = localStorage.getItem('headerLevel');
+			radioButtons.forEach(buttonHtmlElement => {
+				if (buttonHtmlElement.value === localStorageHeaderLevel) {
+					// remove active class from all buttons
+					for (let i = 0; i < radioButtons.length; i++) {
+						radioButtons[i].classList.remove('activeRadioButton');
+					}
+					buttonHtmlElement.classList.add('activeRadioButton');
+				}
+				buttonHtmlElement.addEventListener('click', function () {
+					// remove active class from all buttons
+					for (let i = 0; i < radioButtons.length; i++) {
+						radioButtons[i].classList.remove('activeRadioButton');
+					}
+					// add active class to the clicked button
+					this.classList.add('activeRadioButton');
+					// set localStorage
+					localStorage.setItem('headerLevel', this.value);
+					// Recalculate the output
+					inputTextProcessing();
+				});
+			});
 
-        return hlevel
-    }
+			function inputTextProcessing() {
+				// Set input localStorage
+				localStorage.setItem(
+					'input',
+					document.getElementById('textAreaInput').value
+				);
+				let rawSelectedRadioButtonValue =
+					document.querySelector('.activeRadioButton').value;
 
-    function textProcessing()
-    {
-        var inputValue = document.getElementById("textAreaInput").value;
-        var splitString = inputValue.split(calc());
-        
-        // Strip the first array element that is always an empty string ""
-        splitString.splice(0, 1)
+				// If non-recursive sorting is selected
+				if (rawSelectedRadioButtonValue !== 'all') {
+					const inputValue =
+						document.getElementById('textAreaInput').value;
+					const selectedRadioButtonValue =
+						'\n' + rawSelectedRadioButtonValue + ' ';
+					// Processing input text
+					const splitString = inputValue.split(
+						selectedRadioButtonValue
+					);
+					// Strip the first array element that is always an empty string ""
+					splitString.splice(0, 1);
+					// Adding back the header (e.g. "\n# ") that was stripped when splitting the string
+					for (var i = 0; i < splitString.length; i++) {
+						splitString[i] =
+							selectedRadioButtonValue + splitString[i];
+					}
+					// Sorting
+					var sortedString = splitString.sort();
+					// Turn array into string
+					var joinedString = splitString.join('');
+					document.getElementById('textAreaOutput').value =
+						joinedString;
+					let result = joinedString
+				} else {
+					// If recursive sorting is selected
+					function Node(value, textValue = '', simpleText = '') {
+						this.value = value; // Heading value, for example: "# Main Heading" or "### Sub sub Heading"
+						this.simpleText = simpleText; // Text that is under heading but not subheading
+						this.textValue = textValue; // All remaining text that is under current Heading
+						this.children = []; // Current heading subheadings, example: heading "# Main heading" has two subheadings: "## Introduction" and "## Sumary"
+						this.parent = null;
 
-        // Adding back the hlevel that was stripped when splitting the string
-        for (var i=0; i<splitString.length; i++) {
-            splitString[i] = calc() + splitString[i];
-        }
-        
-        // Sorting
-        var sortedString = splitString.sort();
-        
-        // Turn array into string
-        var joinedString = splitString.join("")
+						this.setParentNode = function (node) {
+							this.parent = node;
+						};
 
-        return joinedString
-    }
+						this.addChild = function (node) {
+							node.setParentNode(this);
+							this.children[this.children.length] = node;
+						};
 
-    function showOutput()
-    {
-    document.getElementById("textAreaOutput").value = textProcessing();
-    }
+						this.setChildren = function (children) {
+							this.children = children;
+						};
 
-    // Cookies
-    function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    }
+						this.getChildren = function () {
+							return this.children;
+						};
 
-    function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-    }
+						this.getSimpleText = function () {
+							return this.simpleText;
+						};
 
-</script>
+						this.getTextValue = function () {
+							return this.textValue;
+						};
 
-<br>
-<strong>Requirements:</strong>
-<br>Each header has to have a newline above it to be sorted, for example:<br>
+						this.getValue = function () {
+							return this.value;
+						};
 
-<br><u>Correct:</u><br>
-"<br>
-# Topic<br>
-<br>
-## My topic<br>
-<br>
-## My other topic<br>
-"<br>
-<br>
-<u>Incorrect:</u><br>
-"<br>
-# Topic<br>
-## My topic<br>
-<br>
-## My other topic<br>
-"<br>
+						this.setSimpleText = function (simpleTextValue) {
+							this.simpleText = simpleTextValue;
+						};
+					}
 
-<br><small>Fork on <a href="https://github.com/LukasDZN/Markdown-header-sorter">GitHub</a><small>
+					/**
+					 * @param inputString - string in which we are looking for #headings
+					 * @param splitter - element by which we split all text into lines (in our case it is new line symbol \n
+					 * @param parentNode - we have to have parent node to be able to connect children to it
+					 * @param depthNumber - for how many heading indicators we are looking (# or ## and so on)
+					 */
+					const setNodes = (
+						inputString,
+						splitter,
+						parentNode,
+						depthNumber
+					) => {
+						// Main function that converts input string into tree of nodes
+						const splitString = inputString.split(splitter); // Splitting input string into lines and saving them into an array
+						const separator = '#';
+						for (let i = 0; i < splitString.length; i += 1) {
+							// Going throughout all lines
+							const line = splitString[i]; // Setting current iteration value
 
-</body>
+							// Checking if current line is heading that we are looking for. Checking if line starts with as many separators as it has to
+							// and whether that line has empty lines before and after that (it was described in requirements)
+							if (
+								line.slice(0, depthNumber) ===
+									separator.repeat(depthNumber) &&
+								line[depthNumber] !== separator &&
+								splitString[i - 1] === '\n' &&
+								splitString[i + 1] === '\n'
+							) {
+								let headingString = splitString[i + 1]; // Setting next line value
+								for (
+									let j = i + 1;
+									j < splitString.length;
+									j += 1
+								) {
+									// Going throughout all next lines
+									const line2 = splitString[j]; // Setting current iteration value
+
+									// Checking where current heading ends and new one starts
+									if (
+										line2.slice(0, depthNumber) ===
+											separator.repeat(depthNumber) &&
+										line2[depthNumber] !== separator &&
+										splitString[j - 1] === '\n' &&
+										splitString[j + 1] === '\n'
+									) {
+										// If new heading starting the we add up to first iterator to not go through same lines again and break the current cycle
+										i = j - 1;
+										break;
+									} else {
+										// If it's still not new heading we adding up to have string with all current heading info
+										headingString += line2;
+									}
+								}
+								// If current heading doesn't have his own text and exactly after it goes subheading then we adding as much new lines as there has to be
+								const x = headingString.search(
+									`\n${separator.repeat(depthNumber + 1)}`
+								);
+								let simpleText = '';
+								if (x > -1) {
+									simpleText = headingString.slice(0, x);
+								}
+								// Creating new node which
+								// value is current heading,
+								// headingString is all text that goes under current heading
+								// simpleText is text that doesn't have subheading and go under current heading but not its subheadings
+								const newNode = new Node(
+									line,
+									headingString,
+									simpleText
+								);
+								parentNode.addChild(newNode); // Connecting newly created node to its parent
+								// Calling same method (recursion) with different params:
+								// headingString is text that goes under current heading and we will look for subheadings in it
+								// lines splitter
+								// newNode - our newly created node will be parent node for its subheadings
+								// depthNumber - increasing it to look for one heading separator more (## instead of # and so on)
+								setNodes(
+									headingString,
+									/(\n)/,
+									newNode,
+									depthNumber + 1
+								);
+							}
+						}
+					};
+
+					/**
+					 * @param root - current node
+					 */
+					// Going throughout all nodes and sorting them and
+					// setting lowest (the ones that don't have children (subheadings)) children simpleText values
+					const setLowestChildrenSimpleTextAndSort = root => {
+						if (!root.getChildren().length) return; // If current node doesn't have children we break iteration
+						sortNodeChildren(root); // Calling sorting method
+						for (let i = 0; i < root.getChildren().length; i += 1) {
+							// Going throughout all current node children
+							const currentNode = root.getChildren()[i]; // Setting current child node
+
+							// If current child has children of his own
+							if (currentNode.getChildren().length) {
+								// If current child has simpleText
+								if (currentNode.getSimpleText()) {
+									// We remove first character of it and add new line at the end (stupid but works)
+									const text = `${currentNode
+										.getSimpleText()
+										.substring(1)}\n`;
+									// And setting updated simpleText to current node
+									currentNode.setSimpleText(text);
+								}
+								setLowestChildrenSimpleTextAndSort(currentNode); // Calling same method but with currentNode as root
+							} else {
+								// If current node doesn't have children then setting its textValue as simpleText just without first character
+								currentNode.setSimpleText(
+									currentNode.getTextValue().substring(1)
+								);
+							}
+						}
+					};
+
+					/**
+					 * @param root - currentNode
+					 */
+					// Sorting current node children alphabetically
+					const sortNodeChildren = root => {
+						if (!root.getChildren().length) return; // If current node doesn't have children we break iteration
+						const updatedChildren = [...root.getChildren()]; // Creating new array with currentNode children
+						updatedChildren.sort((a, b) =>
+							a.value > b.value ? 1 : -1
+						); // Sorting new array headings alphabetically
+						root.setChildren(updatedChildren); // Setting current node children as newly sorted array
+					};
+
+					// Global variable that contains sorted result
+					let result = '';
+
+					/**
+					 * @param children - current node children
+					 */
+					// Joining all nodes values (headings) and simpleTexts (text under headings)
+					const getTextFromNode = children => {
+						for (let i = 0; i < children.length; i += 1) {
+							// Going throughout all current node children
+							result =
+								result +
+								children[i].getValue() +
+								children[i].getSimpleText(); // Adding value and simpleText value to final result
+							getTextFromNode(children[i].getChildren()); // Calling same method but with current node children as new current node children
+						}
+					};
+
+					const rootNode = new Node('root'); // Creating root node which will contain main headings (#) as children
+
+					const inputValueNew =
+						document.getElementById('textAreaInput').value;
+					setNodes(inputValueNew, /(\n)/, rootNode, 1); // converting input text to nodes tree
+					setLowestChildrenSimpleTextAndSort(rootNode); // Sorting and setting simpleText as values
+					getTextFromNode(rootNode.getChildren()); // Joining tree to string which will be final result
+					console.log(rootNode);
+					console.log(inputValueNew);
+					console.log(result);
+					document.getElementById('textAreaOutput').value = result; // Setting final result to output textarea 
+					// return result;
+
+					// Set output localStorage
+					localStorage.setItem('output', result);
+				}
+
+				// Set output localStorage
+				try { localStorage.setItem('output', result); } catch (e) {}
+			}
+
+			(function loadAndDisplaySavedInputAndOutputValues() {
+				// Load input localStorage
+				const savedInputValue = localStorage.getItem('input');
+				if (savedInputValue !== null || savedInputValue !== '') {
+					textAreaInput.value = savedInputValue;
+				}
+				// Load output localStorage
+				const savedOutputValue = localStorage.getItem('output');
+				if (savedOutputValue !== null || savedInputValue !== '') {
+					textAreaOutput.value = savedOutputValue;
+				}
+			})();
+
+			// Easter egg - play music
+			const playMusicElement = document.getElementById('s');
+			playMusicElement.addEventListener('click', function () {
+				const audio = new Audio('MJ.mp3');
+				audio.play();
+			});
+		</script>
+	</body>
 </html>
-
-<!-- Notes:
-Javascript innerHTML does update the text in textarea but it doesn't show yours changes in the browser window; if you use it for the second time. for example, If you had some button that updates the text in textarea; this button would insert text for the first time but on second time although it would insert text in textarea (as can be proved by firebug or chrome developer tool) but this would not be shown in browser window. Instead if you use value this would be shown in browser (I had test it in chrome and firefox). -->
