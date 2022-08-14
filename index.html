@@ -4,8 +4,11 @@
 		<!-- Basic Page Needs -->
 		<meta charset="utf-8" />
 		<title>Markdown header sorter</title>
-		<meta name="description" content="" />
-		<meta name="author" content="" />
+		<meta
+			name="description"
+			content="Copy and paste your text into the editor tool to sort your markdown sections alphabetically. Sort your entire text or select a single header level (#, ##, ...). This tool is free and open source."
+		/>
+		<meta name="author" content="Lukas Dzenkauskas" />
 
 		<!-- Mobile Specific Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,14 +25,54 @@
 		<link rel="stylesheet" href="css/style.css" />
 
 		<!-- Favicon -->
-		<link rel="icon" type="image/png" href="images/favicon-16.png" />
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="images/apple-touch-icon.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="images/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="images/favicon-16x16.png"
+		/>
+		<link rel="manifest" href="images/site.webmanifest" />
+
+		<!-- Social network cards -->
+		<meta property="og:title" content="# Markdown header sorter" />
+		<meta property="og:type" content="website" />
+		<meta
+			property="og:url"
+			content="https://lukasdzn.github.io/Markdown-header-sorter/"
+		/>
+		<meta property="og:image" content="images/apple-touch-icon.png" />
+		<!-- <meta property="og:site_name" content=""/> -->
+		<meta
+			property="og:description"
+			content="Copy and paste your text into the online editor to sort your markdown sections alphabetically. Sort your entire text or select a single header level. This tool is free and open source."
+		/>
 	</head>
 
 	<body>
 		<!-- Primary Page Layout -->
 		<div class="grid-container full">
 			<h1># Markdown header sorter</h1>
-
+			<p class="grayText">
+				Copy and paste your text into the editor tool to sort your
+				markdown sections alphabetically. <br />Sort your entire text or
+				select a single header level (#, ##, ...)<br /><br />This tool
+				is free and
+				<a href="https://github.com/LukasDZN/Markdown-header-sorter"
+					>open source</a
+				>
+				&#128156;
+			</p>
 			<hr />
 
 			<div class="grid-container halves">
@@ -48,8 +91,6 @@
 				<textarea
 					id="textAreaInput"
 					oninput="inputTextProcessing();"
-					rows="30"
-					cols="100"
 					autocomplete="off"
 					placeholder="Input markdown text..."
 					style="white-space: normal"
@@ -59,8 +100,6 @@
 				<!-- Output -->
 				<textarea
 					id="textAreaOutput"
-					rows="30"
-					cols="100"
 					autocomplete="off"
 					placeholder="Live result..."
 					style="white-space: normal"
@@ -69,6 +108,14 @@
 
 				<!-- Header level select -->
 				<form id="settingsFormId">
+					<p
+						class="grayText"
+						id="wordCountId"
+						style="text-align: right; margin: 0; font-size: 1em"
+					>
+						Characters:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+						Words:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					</p>
 					<div>
 						<h2>Select the header level to order by:</h2>
 					</div>
@@ -164,9 +211,8 @@
 		<br />
 		<div style="text-align: right">
 			<small
-				>Fork on
-				<a href="https://github.com/LukasDZN/Markdown-header-sorter"
-					>GitHub</a
+				><a href="https://www.buymeacoffee.com/lukasdzn"
+					>Show support</a
 				></small
 			>
 		</div>
@@ -249,6 +295,31 @@ ZA test 2
 				document.execCommand('copy');
 			});
 
+			// Character and word counter
+			const wordCounter = document.getElementById('wordCountId');
+			function countWords(str) {
+				var matches = str.match(/[\w\d\’\'-]+/gi);
+				return matches ? matches.length : 0;
+			}
+			function stringPadding(str, desiredLength) {
+				if (str.length < desiredLength) {
+					const paddingNeededCount = desiredLength - str.length;
+					const padding = '&nbsp;'.repeat(paddingNeededCount);
+					return str + padding;
+				} else {
+					return str;
+				}
+			}
+			document
+				.getElementById('textAreaInput')
+				.addEventListener('input', function () {
+					wordCounter.innerHTML =
+						'Characters: ' +
+						stringPadding('' + this.value.length, 7) + // '' + for effective string conversion
+						' | Words: ' +
+						stringPadding('' + countWords(this.value), 5);
+				});
+
 			// Radio buttons
 			const radioButtons = document.querySelectorAll('.radioButton');
 			// Retrieve radio buttons localStorage setting (default is All headers)
@@ -307,7 +378,13 @@ ZA test 2
 					var joinedString = splitString.join('');
 					document.getElementById('textAreaOutput').value =
 						joinedString;
-					let result = joinedString
+					let result = joinedString;
+					// Set output localStorage
+					localStorage.setItem('output', result);
+					if (result === '') {
+						document.getElementById('textAreaOutput').value =
+							'Selected header level was not found';
+					}
 				} else {
 					// If recursive sorting is selected
 					function Node(value, textValue = '', simpleText = '') {
@@ -511,15 +588,12 @@ ZA test 2
 					console.log(rootNode);
 					console.log(inputValueNew);
 					console.log(result);
-					document.getElementById('textAreaOutput').value = result; // Setting final result to output textarea 
+					document.getElementById('textAreaOutput').value = result; // Setting final result to output textarea
 					// return result;
 
 					// Set output localStorage
 					localStorage.setItem('output', result);
 				}
-
-				// Set output localStorage
-				try { localStorage.setItem('output', result); } catch (e) {}
 			}
 
 			(function loadAndDisplaySavedInputAndOutputValues() {

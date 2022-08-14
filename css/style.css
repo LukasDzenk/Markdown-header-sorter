@@ -1,4 +1,4 @@
-/*        Want to edit this CSS? Go to https://discordcss.ml/discord-u.css for a human friendly version.         */
+/* CSS template source: https://discordcss.blobby.me/ */
 :root {
 	--background-body: #fff;
 	--background: #efefef;
@@ -237,7 +237,7 @@ textarea {
 h1 {
 	font-size: 2.5em;
 	margin-top: 0;
-	margin-bottom: 0.8em;
+	margin-bottom: 0em;
 }
 h2,
 h3,
@@ -542,8 +542,8 @@ textarea:not([cols]) {
 	width: 100%;
 }
 textarea:not([rows]) {
-	min-height: 40px;
-	height: 140px;
+	min-height: 200px;
+	height: 50vh;
 }
 select {
 	background: #efefef
@@ -1393,4 +1393,10 @@ textarea {
 }
 #s:hover:after {
 	content: " :)";
+}
+
+.grayText {
+	color: var(--text-muted);
+	font-family: monospace;
+	font-size: 1.2em;
 }
