@@ -206,17 +206,20 @@
 
 				<div id="requirementsDivId">
 					<h2>Requirements:</h2>
-					<br />Each header has to have a newline above it to be
+					<br />Each header has to have a newline above and below it to be
 					sorted, for example:<br />
 
 					<br />
 					<h3 id="s">Correct:</h3>
 					<br />
-					<pre><code># Topic
+					<pre><code>
+# Topic
 
 ## My topic
 							
-## My other topic</code></pre>
+## My other topic
+
+</code></pre>
 					<h3>Incorrect:</h3>
 					<br />
 					<pre><code># Topic
@@ -253,27 +256,31 @@
 				'loadExampleButtonId'
 			);
 			const exampleInput = `
-## BA (third)
+# A
 
-BA text 1
-BA text 2
+A text 1
 
-## AB (first)
+## AC (third)
 
-AB text 1
-AB text 2
+AC text
 
-## AZ (second)
+### AAA (should be under AC)
 
-AZ text 1
-AZ text 2
+## AA (first)
 
-### Should be under AZ
+AA text
 
-## ZA (fourth)
+## AB (second)
 
-ZA text 1
-ZA test 2
+AB text
+
+### AAA (should be under AAA)
+
+AAA text
+
+## AD (fourth)
+
+AD text
 `;
 			loadExampleButton.addEventListener('click', function () {
 				textAreaInput.value = exampleInput;
