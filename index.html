@@ -1,649 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<!-- Basic Page Needs -->
 		<meta charset="utf-8" />
-		<title>Markdown header sorter</title>
-		<meta
-			name="description"
-			content="Copy and paste your text into the editor tool to sort your markdown sections alphabetically. Sort your entire text or select a single header level (#, ##, ...). This tool is free and open source."
-		/>
+		<title>Markdown Header Sorter Online — Sort Markdown Headers Alphabetically Free</title>
+		<meta name="description" content="Free markdown header sorter online. Sort markdown headers alphabetically by level (# to ######). Works in the browser; markdown syntax supported." />
 		<meta name="author" content="Lukas Dzenkauskas" />
-
-		<!-- Mobile Specific Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href="https://lukasdzn.github.io/Markdown-header-sorter/" />
 
-		<!-- FONT -->
-		<link
-			href="//fonts.googleapis.com/css?family=Raleway:400,300,600"
-			rel="stylesheet"
-			type="text/css"
-		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-		<!-- CSS -->
 		<link rel="stylesheet" href="css/normalize.css" />
 		<link rel="stylesheet" href="css/style.css" />
 
-		<!-- Favicon -->
-		<link
-			rel="apple-touch-icon"
-			sizes="180x180"
-			href="images/apple-touch-icon.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="32x32"
-			href="images/favicon-32x32.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="16x16"
-			href="images/favicon-16x16.png"
-		/>
+		<script defer data-domain="markdown-header-sorter.lukasdzenk.com" src="https://plausible-1.matcha-squad.xyz/js/script.js"></script>
+
+		<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
 		<link rel="manifest" href="images/site.webmanifest" />
 
-		<!-- Social network cards -->
-		<meta property="og:title" content="# Markdown header sorter" />
+		<!-- Open Graph -->
 		<meta property="og:type" content="website" />
-		<meta
-			property="og:url"
-			content="https://lukasdzn.github.io/Markdown-header-sorter/"
-		/>
-		<meta property="og:image" content="images/apple-touch-icon.png" />
-		<!-- <meta property="og:site_name" content=""/> -->
-		<meta
-			property="og:description"
-			content="Copy and paste your text into the online editor to sort your markdown sections alphabetically. Sort your entire text or select a single header level. This tool is free and open source."
-		/>
+		<meta property="og:url" content="https://lukasdzn.github.io/Markdown-header-sorter/" />
+		<meta property="og:title" content="Markdown Header Sorter Online — Sort Headers Alphabetically" />
+		<meta property="og:description" content="Free online tool to sort markdown headers alphabetically. Markdown sorting by level. No install—works in browser." />
+		<meta property="og:image" content="https://lukasdzn.github.io/Markdown-header-sorter/images/apple-touch-icon.png" />
+		<meta property="og:image:width" content="180" />
+		<meta property="og:image:height" content="180" />
+		<meta property="og:site_name" content="Markdown Header Sorter" />
+		<meta property="og:locale" content="en_US" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content="Markdown Header Sorter Online — Sort Headers Alphabetically" />
+		<meta name="twitter:description" content="Free online markdown header sorter. Sort markdown headers alphabetically by level. Works in the browser." />
+
+		<!-- JSON-LD: WebApplication -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "WebApplication",
+			"name": "Markdown Header Sorter",
+			"description": "Free online tool to sort markdown headers alphabetically. Sort markdown sort list and markdown headers by level (# to ######). Supports standard markdown syntax; works in the browser.",
+			"url": "https://lukasdzn.github.io/Markdown-header-sorter/",
+			"applicationCategory": "DeveloperApplication",
+			"operatingSystem": "Any",
+			"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+			"author": { "@type": "Person", "name": "Lukas Dzenkauskas" }
+		}
+		</script>
+		<!-- JSON-LD: FAQPage for rich results -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{ "@type": "Question", "name": "What is a markdown header sorter?", "acceptedAnswer": { "@type": "Answer", "text": "A markdown header sorter is a tool that sorts markdown sections alphabetically by their headings. This one works online in your browser: you paste markdown, choose a header level (# to ######) or sort all levels, and get reordered output. No install needed." } },
+				{ "@type": "Question", "name": "How do I sort markdown headers alphabetically?", "acceptedAnswer": { "@type": "Answer", "text": "Paste your markdown into the input box, ensure each header has a blank line above and below it, then choose 'All headers' to sort every level or pick a single level (#, ##, etc.). The result updates live; use 'Copy result' to use the sorted markdown elsewhere." } },
+				{ "@type": "Question", "name": "Do I need to install anything?", "acceptedAnswer": { "@type": "Answer", "text": "No. This markdown header sorter runs entirely in the browser. For use in Node.js you can use the open-source script from the GitHub repo." } },
+				{ "@type": "Question", "name": "Why do headers need blank lines above and below?", "acceptedAnswer": { "@type": "Answer", "text": "The tool detects a line as a markdown header only when it has a newline above and below it. That follows common markdown style and avoids misdetecting # in the middle of a sentence. See the format requirements on this page for correct vs incorrect examples." } },
+				{ "@type": "Question", "name": "Can I sort only one header level (e.g. ##)?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Use the level pills to choose 'All headers' (recursive sort) or a single level: #, ##, ###, ####, #####, or ######. Sorting only ## reorders level-2 sections alphabetically and leaves # and ### etc. unchanged." } },
+				{ "@type": "Question", "name": "Is the markdown header sorter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The tool is free to use and open source. No account or sign-up required." } }
+			]
+		}
+		</script>
 	</head>
-
 	<body>
-		<!-- Primary Page Layout -->
-		<div class="grid-container full">
-			<h1># Markdown header sorter</h1>
-			<p class="grayText">
-				Copy and paste your text into the editor tool to sort your
-				markdown sections alphabetically. <br />Sort your entire text or
-				select a single header level (#, ##, ...)<br /><br />This tool
-				is free and
-				<a href="https://github.com/LukasDZN/Markdown-header-sorter"
-					>open source</a
-				>
-				&#128156;
-			</p>
-			<br />
-			<div style="text-align: center">
-				<p
-					style="
-						background-color: rgb(255, 211, 146);
-						color: black;
-						border-radius: 6px;
-						height: 2em;
-						width: max-content;
-						display: inline-block;
-						padding: 0.6em 0.6em 0.1em 1em;
-						font-family: monospace;
-						font-size: 1.2em;
-						font-weight: 500;
-					"
-				>
-					&#9888; Road work ahead. Some scenarios might not work
-					as expected. Last development update:
-					<code style="font-size: 0.8em; margin-right: 4px;">14-08-2022</code>
-				</p>
+		<a href="#tool" class="skip-link">Skip to tool</a>
+		<header class="site-header">
+			<div class="site-header__inner">
+				<h1 class="site-title">Markdown header sorter</h1>
+				<p class="site-tagline">Paste your markdown. Pick a level. Get sections sorted A–Z.</p>
+				<p class="site-intro">Use this <strong>markdown header sorter online</strong> to <strong>sort markdown headers</strong> alphabetically—no install, works in the browser. Markdown sorting by level (# to ######); supports full <a href="#requirementsDivId">markdown syntax</a>. Free & <a href="https://github.com/LukasDZN/Markdown-header-sorter" target="_blank" rel="noopener">open source</a>. See a <a href="#before-after">before and after example</a> and <a href="#faq">Q&A</a> below.</p>
 			</div>
-			<hr />
+		</header>
 
-			<div class="grid-container halves">
-				<div class="grid-container halves twoButtonFit">
-					<!-- Load example -->
-					<button id="loadExampleButtonId">Load example</button>
-					<div class="grid-container halves twoButtonFit">
-						<button id="toggleWrapButtonId">Wrap</button>
-						<button id="clearButtonId">Clear</button>
+		<main class="main">
+			<section class="tool-card" id="tool" aria-labelledby="tool-heading">
+				<h2 id="tool-heading" class="visually-hidden">Sort markdown headers alphabetically</h2>
+				<div class="tool-bar">
+					<div class="tool-bar__left">
+						<div class="tool-bar__examples">
+							<span class="tool-bar__examples-label">Examples:</span>
+							<button type="button" data-example="simple" class="btn btn--example">Simple</button>
+							<button type="button" data-example="two-levels" class="btn btn--example">Two levels</button>
+							<button type="button" data-example="recursive" class="btn btn--example">Recursive</button>
+						</div>
+						<span class="tool-bar__divider" aria-hidden="true"></span>
+						<button type="button" id="toggleWrapButtonId" class="btn btn--ghost">Wrap</button>
+						<button type="button" id="clearButtonId" class="btn btn--ghost">Clear</button>
+					</div>
+					<button type="button" id="copyResultButtonId" class="btn btn--primary">Copy result</button>
+				</div>
+
+				<div class="editor-panes">
+					<div class="editor-pane editor-pane--input">
+						<label for="textAreaInput" class="editor-pane__label">Input</label>
+						<textarea
+							id="textAreaInput"
+							oninput="inputTextProcessing();"
+							autocomplete="off"
+							placeholder="Paste markdown with headers here…"
+							spellcheck="true"
+							autofocus
+						></textarea>
+					</div>
+					<div class="editor-pane editor-pane--output">
+						<label for="textAreaOutput" class="editor-pane__label">Sorted result</label>
+						<textarea
+							id="textAreaOutput"
+							autocomplete="off"
+							placeholder="Result appears here as you type."
+							spellcheck="true"
+						></textarea>
 					</div>
 				</div>
 
-				<button id="copyResultButtonId">Copy result</button>
+				<div class="tool-stats" aria-hidden="true">
+					<span id="wordCountId">Characters: 0 &nbsp;|&nbsp; Words: 0</span>
+				</div>
 
-				<!-- Input -->
-				<textarea
-					id="textAreaInput"
-					oninput="inputTextProcessing();"
-					autocomplete="off"
-					placeholder="Input markdown text..."
-					style="white-space: normal"
-					spellcheck="true"
-					autofocus
-				></textarea>
-				<!-- Output -->
-				<textarea
-					id="textAreaOutput"
-					autocomplete="off"
-					placeholder="Live result..."
-					style="white-space: normal"
-					spellcheck="true"
-				></textarea>
-
-				<!-- Header level select -->
-				<form id="settingsFormId">
-					<p
-						class="grayText"
-						id="wordCountId"
-						style="text-align: right; margin: 0; font-size: 1em"
-					>
-						Characters:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-						Words:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					</p>
-					<div>
-						<h2>Select the header level to order by:</h2>
-					</div>
-
-					<br />
-					<div class="grid-container halves twoButtonFit">
-						<div>
-							<button
-								type="button"
-								class="radioButton activeRadioButton"
-								id="headerAllLevelButtonId"
-								value="all"
-							>
-								All headers
-							</button>
-							<button
-								type="button"
-								class="radioButton"
-								id="headerLevel1ButtonId"
-								value="#"
-							>
-								# Level 1 header only
-							</button>
-							<button
-								type="button"
-								class="radioButton"
-								id="headerLevel2ButtonId"
-								value="##"
-							>
-								## Level 2 header only
-							</button>
-							<button
-								type="button"
-								class="radioButton"
-								id="headerLevel3ButtonId"
-								value="###"
-							>
-								### Level 3 header only
-							</button>
-							<button
-								type="button"
-								class="radioButton"
-								id="headerLevel4ButtonId"
-								value="####"
-							>
-								#### Level 4 header only
-							</button>
-							<button
-								type="button"
-								class="radioButton"
-								id="headerLevel5ButtonId"
-								value="#####"
-							>
-								##### Level 5 header only
-							</button>
-							<button
-								type="button"
-								class="radioButton"
-								id="headerLevel6ButtonId"
-								value="######"
-							>
-								###### Level 6 header only
-							</button>
+				<form id="settingsFormId" class="level-form">
+					<fieldset class="level-form__fieldset">
+						<legend class="level-form__legend">Sort by header level</legend>
+						<div class="level-pills">
+							<button type="button" class="radioButton activeRadioButton" id="headerAllLevelButtonId" value="all">All headers</button>
+							<button type="button" class="radioButton" id="headerLevel1ButtonId" value="#">#</button>
+							<button type="button" class="radioButton" id="headerLevel2ButtonId" value="##">##</button>
+							<button type="button" class="radioButton" id="headerLevel3ButtonId" value="###">###</button>
+							<button type="button" class="radioButton" id="headerLevel4ButtonId" value="####">####</button>
+							<button type="button" class="radioButton" id="headerLevel5ButtonId" value="#####">#####</button>
+							<button type="button" class="radioButton" id="headerLevel6ButtonId" value="######">######</button>
 						</div>
-					</div>
+					</fieldset>
 				</form>
 
-				<div id="requirementsDivId">
-					<h2>Requirements:</h2>
-					<br />Each header has to have a newline above and below it to be
-					sorted, for example:<br />
-
-					<br />
-					<h3 id="s">Correct:</h3>
-					<br />
-					<pre><code>
-# Topic
+				<details class="requirements" id="requirementsDivId">
+					<summary>Markdown format requirements (syntax for headers)</summary>
+					<p>Each <strong>markdown header</strong> must have a blank line above and below it to be detected. Use standard <strong>markdown syntax</strong> (e.g. <code>#</code>, <code>##</code>).</p>
+					<p><strong>Correct:</strong></p>
+					<pre><code># Topic
 
 ## My topic
-							
-## My other topic
 
-</code></pre>
-					<h3>Incorrect:</h3>
-					<br />
+## My other topic</code></pre>
+					<p><strong>Incorrect:</strong></p>
 					<pre><code># Topic
 ## My topic
-							
 ## My other topic</code></pre>
+					<p class="requirements__easter" id="s">(Click “Correct” for a surprise.)</p>
+				</details>
+			</section>
+
+			<section class="before-after" id="before-after">
+				<h2 class="section-title">Before and after</h2>
+				<p class="section-lead">Example: unsorted markdown headers become alphabetically ordered. Content under each header stays with its header.</p>
+				<div class="before-after__grid">
+					<div class="before-after__block">
+						<h3 class="before-after__label">Before</h3>
+						<pre class="before-after__pre"><code># Zebra
+
+Section about Zebra.
+
+# Apple
+
+Section about Apple.
+
+# Mango
+
+Section about Mango.</code></pre>
+					</div>
+					<div class="before-after__block">
+						<h3 class="before-after__label">After (sorted)</h3>
+						<pre class="before-after__pre"><code># Apple
+
+Section about Apple.
+
+# Mango
+
+Section about Mango.
+
+# Zebra
+
+Section about Zebra.</code></pre>
+					</div>
 				</div>
+				<p class="before-after__cta"><a href="#tool" class="btn btn--secondary">Try it with your markdown</a></p>
+			</section>
+
+			<section class="faq" id="faq" itemscope itemtype="https://schema.org/FAQPage">
+				<h2 class="section-title">Questions and answers</h2>
+				<div class="faq__list">
+					<article class="faq__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+						<h3 class="faq__q" itemprop="name">What is a markdown header sorter?</h3>
+						<div class="faq__a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+							<p itemprop="text">A markdown header sorter is a tool that sorts markdown sections alphabetically by their headings. This one works online in your browser: you paste markdown, choose a header level (# to ######) or sort all levels, and get reordered output. No install needed.</p>
+						</div>
+					</article>
+					<article class="faq__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+						<h3 class="faq__q" itemprop="name">How do I sort markdown headers alphabetically?</h3>
+						<div class="faq__a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+							<p itemprop="text">Paste your markdown into the input box, ensure each header has a blank line above and below it, then choose &quot;All headers&quot; to sort every level or pick a single level (#, ##, etc.). The result updates live; use &quot;Copy result&quot; to use the sorted markdown elsewhere.</p>
+						</div>
+					</article>
+					<article class="faq__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+						<h3 class="faq__q" itemprop="name">Do I need to install anything?</h3>
+						<div class="faq__a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+							<p itemprop="text">No. This markdown header sorter runs entirely in the browser. For use in Node.js you can use the open-source script from the GitHub repo.</p>
+						</div>
+					</article>
+					<article class="faq__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+						<h3 class="faq__q" itemprop="name">Why do headers need blank lines above and below?</h3>
+						<div class="faq__a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+							<p itemprop="text">The tool detects a line as a markdown header only when it has a newline above and below it. That follows common markdown style and avoids misdetecting <code>#</code> in the middle of a sentence. See the <a href="#requirementsDivId">format requirements</a> on this page for correct vs incorrect examples.</p>
+						</div>
+					</article>
+					<article class="faq__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+						<h3 class="faq__q" itemprop="name">Can I sort only one header level (e.g. ##)?</h3>
+						<div class="faq__a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+							<p itemprop="text">Yes. Use the level pills to choose &quot;All headers&quot; (recursive sort) or a single level: #, ##, ###, ####, #####, or ######. Sorting only ## reorders level-2 sections alphabetically and leaves # and ### etc. unchanged.</p>
+						</div>
+					</article>
+					<article class="faq__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+						<h3 class="faq__q" itemprop="name">Is the markdown header sorter free?</h3>
+						<div class="faq__a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+							<p itemprop="text">Yes. The tool is free to use and open source. No account or sign-up required.</p>
+						</div>
+					</article>
+				</div>
+			</section>
+		</main>
+
+		<footer class="site-footer">
+			<div class="site-footer__links">
+				<a target="_blank" rel="noopener" href="https://www.buymeacoffee.com/lukasdzn">Buy me a coffee</a>
+				<span class="site-footer__sep">·</span>
+				<a href="mailto:lukasdzn1@gmail.com?subject=Markdown%20Header%20Sorter%20%E2%80%94%20Issue%20or%20feature%20suggestion">Report an issue or suggest a feature</a>
+				<span class="site-footer__sep">·</span>
+				<a target="_blank" rel="noopener" href="https://www.markdownguide.org/cheat-sheet/">Markdown cheat sheet</a>
 			</div>
-		</div>
+			<div class="site-footer__projects">
+				<span class="site-footer__label">More tools &amp; sites:</span>
+				<a target="_blank" rel="noopener" href="https://sefasdalius.lt">Sefasdalius</a>
+				<span class="site-footer__sep">·</span>
+				<a target="_blank" rel="noopener" href="https://vacayos.com">Vacayos</a>
+				<span class="site-footer__sep">·</span>
+				<a target="_blank" rel="noopener" href="https://travelovin.com">Travelovin</a>
+				<span class="site-footer__sep">·</span>
+				<a target="_blank" rel="noopener" href="https://lukasdzenk.com">Lukas Dzenk</a>
+				<span class="site-footer__sep">·</span>
+				<a target="_blank" rel="noopener" href="https://directstayz.com">DirectStayz</a>
+				<span class="site-footer__sep">·</span>
+				<a target="_blank" rel="noopener" href="https://youtube-member-video-transcript.lukasdzenk.com">YouTube member transcript</a>
+				<span class="site-footer__sep">·</span>
+				<a target="_blank" rel="noopener" href="https://coordinatedistance.lukasdzenk.com">Coordinate distance</a>
+				<span class="site-footer__sep">·</span>
+				<a target="_blank" rel="noopener" href="https://vintage-phone-call.lukasdzenk.com">Vintage phone call</a>
+			</div>
+		</footer>
 
-		<br />
-
-		<br />
-		<div style="text-align: right">
-			<small
-				><a target="_blank" href="https://www.buymeacoffee.com/lukasdzn"
-					>Show support</a
-				></small
-			>
-		</div>
-
-		<!-- End Document -->
-
-		<!-- js -->
+		<script src="recursiveSort.js"></script>
 		<script>
-			// Constants
 			const textAreaInput = document.getElementById('textAreaInput');
 			const textAreaOutput = document.getElementById('textAreaOutput');
-			// const textAreaInputValue = textAreaInput.value;
-			// const textAreaOutputValue = textAreaOutput.value;
 
-			// Load example button
-			const loadExampleButton = document.getElementById(
-				'loadExampleButtonId'
-			);
-			const exampleInput = `
-# A
+			const examples = {
+				simple: `# Zebra
 
-A text 1
+Content for Zebra.
 
-## AC
+# Apple
 
-AC text
+Content for Apple.
 
-### AAA
+# Mango
 
-AAA text
+Content for Mango.`,
 
-## AA
+				'two-levels': `# Docs
 
-AA text
+## Zebra
 
-## AB
+Zebra section text.
 
-AB text
+## Apple
 
-### AAA
+Apple section text.
 
-AAA text
+## Mango
 
-## AD
+Mango section text.`,
 
-AD text
-`;
-			loadExampleButton.addEventListener('click', function () {
-				textAreaInput.value = exampleInput;
-				inputTextProcessing();
+				recursive: `# Zulu
+
+Intro for Zulu.
+
+## Zulu Bravo
+
+Bravo content.
+
+## Zulu Alpha
+
+Alpha content.
+
+### Zulu Alpha Two
+
+Nested two.
+
+### Zulu Alpha One
+
+Nested one.
+
+# Alpha
+
+Intro for Alpha.
+
+## Alpha Zebra
+
+Content.
+
+## Alpha Mike
+
+Content.
+
+### Alpha Mike Second
+
+Deep.
+
+### Alpha Mike First
+
+Deep.
+
+## Alpha Apple
+
+Content.`
+			};
+
+			document.querySelectorAll('.btn--example').forEach(function (btn) {
+				btn.addEventListener('click', function () {
+					const key = this.getAttribute('data-example');
+					if (!key || !examples[key]) return;
+					textAreaInput.value = examples[key];
+					inputTextProcessing();
+				});
 			});
 
-			// Wrap button
-			const toggleWrapButton =
-				document.getElementById('toggleWrapButtonId');
-			toggleWrapButton.addEventListener('click', function () {
+			document.getElementById('toggleWrapButtonId').addEventListener('click', function () {
 				if (textAreaInput.style.whiteSpace === 'normal') {
 					textAreaInput.style.whiteSpace = 'nowrap';
 					textAreaOutput.style.whiteSpace = 'nowrap';
-					// Set localStorage
 					localStorage.setItem('wrap', 'nowrap');
 				} else {
 					textAreaInput.style.whiteSpace = 'normal';
 					textAreaOutput.style.whiteSpace = 'normal';
-					// Set localStorage
 					localStorage.setItem('wrap', 'normal');
 				}
 			});
-			// Retrieve wrap localStorage setting (default is normal)
 			if (localStorage.getItem('wrap') === 'nowrap') {
 				textAreaInput.style.whiteSpace = 'nowrap';
 				textAreaOutput.style.whiteSpace = 'nowrap';
 			}
 
-			// Clear button
-			const clearButton = document.getElementById('clearButtonId');
-			clearButton.addEventListener('click', function () {
+			document.getElementById('clearButtonId').addEventListener('click', function () {
 				textAreaInput.value = '';
 				textAreaOutput.value = '';
 			});
 
-			// Copy result to clipboard button
-			const copyButton = document.getElementById('copyResultButtonId');
-			copyButton.addEventListener('click', function () {
+			document.getElementById('copyResultButtonId').addEventListener('click', function () {
 				textAreaOutput.select();
 				document.execCommand('copy');
 			});
 
-			// Character and word counter
 			const wordCounter = document.getElementById('wordCountId');
 			function countWords(str) {
-				var matches = str.match(/[\w\d\’\'-]+/gi);
+				var matches = str.match(/[\w\d\'\'-]+/gi);
 				return matches ? matches.length : 0;
 			}
-			function stringPadding(str, desiredLength) {
-				if (str.length < desiredLength) {
-					const paddingNeededCount = desiredLength - str.length;
-					const padding = '&nbsp;'.repeat(paddingNeededCount);
-					return str + padding;
-				} else {
-					return str;
-				}
+			function pad(str, len) {
+				return ('' + str).padEnd(len, '\u00A0');
 			}
-			document
-				.getElementById('textAreaInput')
-				.addEventListener('input', function () {
-					wordCounter.innerHTML =
-						'Characters: ' +
-						stringPadding('' + this.value.length, 7) + // '' + for effective string conversion
-						' | Words: ' +
-						stringPadding('' + countWords(this.value), 5);
-				});
+			textAreaInput.addEventListener('input', function () {
+				wordCounter.textContent = 'Characters: ' + pad(this.value.length, 6) + '  |  Words: ' + pad(countWords(this.value), 4);
+			});
 
-			// Radio buttons
 			const radioButtons = document.querySelectorAll('.radioButton');
-			// Retrieve radio buttons localStorage setting (default is All headers)
-			const localStorageHeaderLevel = localStorage.getItem('headerLevel');
-			radioButtons.forEach(buttonHtmlElement => {
-				if (buttonHtmlElement.value === localStorageHeaderLevel) {
-					// remove active class from all buttons
-					for (let i = 0; i < radioButtons.length; i++) {
-						radioButtons[i].classList.remove('activeRadioButton');
-					}
-					buttonHtmlElement.classList.add('activeRadioButton');
+			const savedLevel = localStorage.getItem('headerLevel');
+			radioButtons.forEach(function (btn) {
+				if (btn.value === savedLevel) {
+					radioButtons.forEach(function (b) { b.classList.remove('activeRadioButton'); });
+					btn.classList.add('activeRadioButton');
 				}
-				buttonHtmlElement.addEventListener('click', function () {
-					// remove active class from all buttons
-					for (let i = 0; i < radioButtons.length; i++) {
-						radioButtons[i].classList.remove('activeRadioButton');
-					}
-					// add active class to the clicked button
+				btn.addEventListener('click', function () {
+					radioButtons.forEach(function (b) { b.classList.remove('activeRadioButton'); });
 					this.classList.add('activeRadioButton');
-					// set localStorage
 					localStorage.setItem('headerLevel', this.value);
-					// Recalculate the output
 					inputTextProcessing();
 				});
 			});
 
 			function inputTextProcessing() {
-				// Set input localStorage
-				localStorage.setItem(
-					'input',
-					document.getElementById('textAreaInput').value
-				);
-				let rawSelectedRadioButtonValue =
-					document.querySelector('.activeRadioButton').value;
-
-				// If non-recursive sorting is selected
-				if (rawSelectedRadioButtonValue !== 'all') {
-					const inputValue =
-						document.getElementById('textAreaInput').value;
-					const selectedRadioButtonValue =
-						'\n' + rawSelectedRadioButtonValue + ' ';
-					// Processing input text
-					const splitString = inputValue.split(
-						selectedRadioButtonValue
-					);
-					// Strip the first array element that is always an empty string ""
-					splitString.splice(0, 1);
-					// Adding back the header (e.g. "\n# ") that was stripped when splitting the string
-					for (var i = 0; i < splitString.length; i++) {
-						splitString[i] =
-							selectedRadioButtonValue + splitString[i];
-					}
-					// Sorting
-					var sortedString = splitString.sort();
-					// Turn array into string
-					var joinedString = splitString.join('');
-					document.getElementById('textAreaOutput').value =
-						joinedString;
-					let result = joinedString;
-					// Set output localStorage
-					localStorage.setItem('output', result);
-					if (result === '') {
-						document.getElementById('textAreaOutput').value =
-							'Selected header level was not found';
-					}
-				} else {
-					// If recursive sorting is selected
-					function Node(value, textValue = '', simpleText = '') {
-						this.value = value; // Heading value, for example: "# Main Heading" or "### Sub sub Heading"
-						this.simpleText = simpleText; // Text that is under heading but not subheading
-						this.textValue = textValue; // All remaining text that is under current Heading
-						this.children = []; // Current heading subheadings, example: heading "# Main heading" has two subheadings: "## Introduction" and "## Sumary"
-						this.parent = null;
-
-						this.setParentNode = function (node) {
-							this.parent = node;
-						};
-
-						this.addChild = function (node) {
-							node.setParentNode(this);
-							this.children[this.children.length] = node;
-						};
-
-						this.setChildren = function (children) {
-							this.children = children;
-						};
-
-						this.getChildren = function () {
-							return this.children;
-						};
-
-						this.getSimpleText = function () {
-							return this.simpleText;
-						};
-
-						this.getTextValue = function () {
-							return this.textValue;
-						};
-
-						this.getValue = function () {
-							return this.value;
-						};
-
-						this.setSimpleText = function (simpleTextValue) {
-							this.simpleText = simpleTextValue;
-						};
-					}
-
-					/**
-					 * @param inputString - string in which we are looking for #headings
-					 * @param splitter - element by which we split all text into lines (in our case it is new line symbol \n
-					 * @param parentNode - we have to have parent node to be able to connect children to it
-					 * @param depthNumber - for how many heading indicators we are looking (# or ## and so on)
-					 */
-					const setNodes = (
-						inputString,
-						splitter,
-						parentNode,
-						depthNumber
-					) => {
-						// Main function that converts input string into tree of nodes
-						const splitString = inputString.split(splitter); // Splitting input string into lines and saving them into an array
-						const separator = '#';
-						for (let i = 0; i < splitString.length; i += 1) {
-							// Going throughout all lines
-							const line = splitString[i]; // Setting current iteration value
-
-							// Checking if current line is heading that we are looking for. Checking if line starts with as many separators as it has to
-							// and whether that line has empty lines before and after that (it was described in requirements)
-							if (
-								line.slice(0, depthNumber) ===
-									separator.repeat(depthNumber) &&
-								line[depthNumber] !== separator &&
-								splitString[i - 1] === '\n' &&
-								splitString[i + 1] === '\n'
-							) {
-								let headingString = splitString[i + 1]; // Setting next line value
-								for (
-									let j = i + 1;
-									j < splitString.length;
-									j += 1
-								) {
-									// Going throughout all next lines
-									const line2 = splitString[j]; // Setting current iteration value
-
-									// Checking where current heading ends and new one starts
-									if (
-										line2.slice(0, depthNumber) ===
-											separator.repeat(depthNumber) &&
-										line2[depthNumber] !== separator &&
-										splitString[j - 1] === '\n' &&
-										splitString[j + 1] === '\n'
-									) {
-										// If new heading starting the we add up to first iterator to not go through same lines again and break the current cycle
-										i = j - 1;
-										break;
-									} else {
-										// If it's still not new heading we adding up to have string with all current heading info
-										headingString += line2;
-									}
-								}
-								// If current heading doesn't have his own text and exactly after it goes subheading then we adding as much new lines as there has to be
-								const x = headingString.search(
-									`\n${separator.repeat(depthNumber + 1)}`
-								);
-								let simpleText = '';
-								if (x > -1) {
-									simpleText = headingString.slice(0, x);
-								}
-								// Creating new node which
-								// value is current heading,
-								// headingString is all text that goes under current heading
-								// simpleText is text that doesn't have subheading and go under current heading but not its subheadings
-								const newNode = new Node(
-									line,
-									headingString,
-									simpleText
-								);
-								parentNode.addChild(newNode); // Connecting newly created node to its parent
-								// Calling same method (recursion) with different params:
-								// headingString is text that goes under current heading and we will look for subheadings in it
-								// lines splitter
-								// newNode - our newly created node will be parent node for its subheadings
-								// depthNumber - increasing it to look for one heading separator more (## instead of # and so on)
-								setNodes(
-									headingString,
-									/(\n)/,
-									newNode,
-									depthNumber + 1
-								);
-							}
-						}
-					};
-
-					/**
-					 * @param root - current node
-					 */
-					// Going throughout all nodes and sorting them and
-					// setting lowest (the ones that don't have children (subheadings)) children simpleText values
-					const setLowestChildrenSimpleTextAndSort = root => {
-						if (!root.getChildren().length) return; // If current node doesn't have children we break iteration
-						sortNodeChildren(root); // Calling sorting method
-						for (let i = 0; i < root.getChildren().length; i += 1) {
-							// Going throughout all current node children
-							const currentNode = root.getChildren()[i]; // Setting current child node
-
-							// If current child has children of his own
-							if (currentNode.getChildren().length) {
-								// If current child has simpleText
-								if (currentNode.getSimpleText()) {
-									// We remove first character of it and add new line at the end (stupid but works)
-									const text = `${currentNode
-										.getSimpleText()
-										.substring(1)}\n`;
-									// And setting updated simpleText to current node
-									currentNode.setSimpleText(text);
-								}
-								setLowestChildrenSimpleTextAndSort(currentNode); // Calling same method but with currentNode as root
-							} else {
-								// If current node doesn't have children then setting its textValue as simpleText just without first character
-								currentNode.setSimpleText(
-									currentNode.getTextValue().substring(1)
-								);
-							}
-						}
-					};
-
-					/**
-					 * @param root - currentNode
-					 */
-					// Sorting current node children alphabetically
-					const sortNodeChildren = root => {
-						if (!root.getChildren().length) return; // If current node doesn't have children we break iteration
-						const updatedChildren = [...root.getChildren()]; // Creating new array with currentNode children
-						updatedChildren.sort((a, b) =>
-							a.value > b.value ? 1 : -1
-						); // Sorting new array headings alphabetically
-						root.setChildren(updatedChildren); // Setting current node children as newly sorted array
-					};
-
-					// Global variable that contains sorted result
-					let result = '';
-
-					/**
-					 * @param children - current node children
-					 */
-					// Joining all nodes values (headings) and simpleTexts (text under headings)
-					const getTextFromNode = children => {
-						for (let i = 0; i < children.length; i += 1) {
-							// Going throughout all current node children
-							result =
-								result +
-								children[i].getValue() +
-								children[i].getSimpleText(); // Adding value and simpleText value to final result
-							getTextFromNode(children[i].getChildren()); // Calling same method but with current node children as new current node children
-						}
-					};
-
-					const rootNode = new Node('root'); // Creating root node which will contain main headings (#) as children
-
-					const inputValueNew =
-						document.getElementById('textAreaInput').value;
-					setNodes(inputValueNew, /(\n)/, rootNode, 1); // converting input text to nodes tree
-					setLowestChildrenSimpleTextAndSort(rootNode); // Sorting and setting simpleText as values
-					getTextFromNode(rootNode.getChildren()); // Joining tree to string which will be final result
-					console.log(rootNode);
-					console.log(inputValueNew);
-					console.log(result);
-					document.getElementById('textAreaOutput').value = result; // Setting final result to output textarea
-					// return result;
-
-					// Set output localStorage
-					localStorage.setItem('output', result);
-				}
+				localStorage.setItem('input', textAreaInput.value);
+				const raw = document.querySelector('.activeRadioButton').value;
+				const level = raw === 'all' ? 'all' : { '#': 1, '##': 2, '###': 3, '####': 4, '#####': 5, '######': 6 }[raw];
+				const result = typeof window.sortMarkdownHeaders === 'function'
+					? window.sortMarkdownHeaders(textAreaInput.value, { level: level })
+					: '';
+				textAreaOutput.value = result === '' && level !== 'all' ? 'Selected header level was not found' : result;
+				localStorage.setItem('output', textAreaOutput.value);
 			}
 
-			(function loadAndDisplaySavedInputAndOutputValues() {
-				// Load input localStorage
-				const savedInputValue = localStorage.getItem('input');
-				if (savedInputValue !== null || savedInputValue !== '') {
-					textAreaInput.value = savedInputValue;
-				}
-				// Load output localStorage
-				const savedOutputValue = localStorage.getItem('output');
-				if (savedOutputValue !== null || savedInputValue !== '') {
-					textAreaOutput.value = savedOutputValue;
-				}
+			(function () {
+				const savedInput = localStorage.getItem('input');
+				if (savedInput != null && savedInput !== '') textAreaInput.value = savedInput;
+				const savedOutput = localStorage.getItem('output');
+				if (savedOutput != null && savedOutput !== '') textAreaOutput.value = savedOutput;
 			})();
 
-			// Easter egg - play music
-			const playMusicElement = document.getElementById('s');
-			playMusicElement.addEventListener('click', function () {
-				const audio = new Audio('MJ.mp3');
-				audio.play();
+			document.getElementById('s').addEventListener('click', function () {
+				new Audio('MJ.mp3').play();
 			});
 		</script>
 	</body>

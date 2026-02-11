@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lukasdzn.github.io/Markdown-header-sorter/sitemap.xml

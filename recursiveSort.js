@@ -1,51 +1,20 @@
-const inputStringValue =
-  '\n' +
-  '#D Heading' +
-  '\n' +
-  'D Headingo biski teksto siaip sau' +
-  '\n' +
-  'D Headingo biski teksto siaip sau XXX' +
-  '\n' +
-  '##DC Heading' +
-  '\n' +
-  'DC Headingo biski teksto' +
-  '\n' +
-  'Ir dar biski' +
-  '\n' +
-  '##DA Heading' +
-  '\n' +
-  'DA Tekstas' +
-  '\n' +
-  '##DB Heading' +
-  '\n' +
-  '###DBA Heading' +
-  '\n' +
-  'DBA Tekstuko ' +
-  '\n' +
-  '#C Heading' +
-  '\n' +
-  '##CB Heading' +
-  '\n' +
-  '###CBB Heading' +
-  '\n' +
-  'CBB Tekstas' +
-  '\n' +
-  '###CBA Heading' +
-  '\n' +
-  'CBA Tekstas' +
-  '\n' +
-  '##CA Heading' +
-  '\n' +
-  '###CAZ Heading' +
-  '\n' +
-  'CAZ Tekstas' +
-  '\n';
+/**
+ * Markdown header sorter: sorts markdown sections alphabetically by heading text.
+ * Supports recursive sort (all levels) or sort at a single header level (#, ##, ...).
+ *
+ * Requirement: each header must have a newline above and below it to be recognized.
+ */
 
+/**
+ * @param {string} value - Heading line, e.g. "# Main" or "### Sub"
+ * @param {string} textValue - All content under this heading (including subheadings)
+ * @param {string} simpleText - Content under this heading that is not under a subheading
+ */
 function Node(value, textValue = '', simpleText = '') {
-  this.value = value; // Heading value, for example: "# Main Heading" or "### Sub sub Heading"
-  this.simpleText = simpleText; // Text that is under heading but not subheading
-  this.textValue = textValue; // All remaining text that is under current Heading
-  this.children = []; // Current heading subheadings, example: heading "# Main heading" has two subheadings: "## Introduction" and "## Sumary"
+  this.value = value;
+  this.simpleText = simpleText;
+  this.textValue = textValue;
+  this.children = [];
   this.parent = null;
 
   this.setParentNode = function (node) {
@@ -54,7 +23,7 @@ function Node(value, textValue = '', simpleText = '') {
 
   this.addChild = function (node) {
     node.setParentNode(this);
-    this.children[this.children.length] = node;
+    this.children.push(node);
   };
 
   this.setChildren = function (children) {
@@ -82,114 +51,153 @@ function Node(value, textValue = '', simpleText = '') {
   };
 }
 
+const SEPARATOR = '#';
+const SPLITTER = /(\n)/;
+
 /**
- * @param inputString - string in which we are looking for #headings
- * @param splitter - element by which we split all text into lines (in our case it is new line symbol \n
- * @param parentNode - we have to have parent node to be able to connect children to it
- * @param depthNumber - for how many heading indicators we are looking (# or ## and so on)
+ * Returns true if the line is a heading at the given depth.
+ * Requirement: newline immediately before and after the heading line in the split array.
  */
-const setNodes = (inputString, splitter, parentNode, depthNumber) => { // Main function that converts input string into tree of nodes
-  const splitString = inputString.split(splitter); // Splitting input string into lines and saving them into an array
-  const separator = '#';
-  for (let i = 0; i < splitString.length; i += 1) { // Going throughout all lines
-    const line = splitString[i]; // Setting current iteration value
+function isHeadingLine(line, depthNumber, splitString, index) {
+  if (!line || line.length <= depthNumber) return false;
+  const prefix = SEPARATOR.repeat(depthNumber);
+  const nextChar = line[depthNumber];
+  const hasNewlineBefore = index > 0 && splitString[index - 1] === '\n';
+  const hasNewlineAfter = index < splitString.length - 1 && splitString[index + 1] === '\n';
+  return (
+    line.slice(0, depthNumber) === prefix &&
+    nextChar !== SEPARATOR &&
+    hasNewlineBefore &&
+    hasNewlineAfter
+  );
+}
 
-    // Checking if current line is heading that we are looking for. Checking if line starts with as many separators as it has to
-    // and whether that line has empty lines before and after that (it was described in requirements)
-    if (line.slice(0, depthNumber) === separator.repeat(depthNumber) && line[depthNumber] !== separator && splitString[i - 1] === '\n' && splitString[i + 1] === '\n') {
-      let headingString = splitString[i + 1]; // Setting next line value
-      for (let j = i + 1; j < splitString.length; j += 1) { // Going throughout all next lines
-        const line2 = splitString[j]; // Setting current iteration value
+/**
+ * Parse input into a tree of nodes. Each heading (with blank line before/after) becomes a node;
+ * its content is everything until the next same-level heading.
+ */
+function setNodes(inputString, parentNode, depthNumber) {
+  const splitString = inputString.split(SPLITTER);
 
-        // Checking where current heading ends and new one starts
-        if (line2.slice(0, depthNumber) === separator.repeat(depthNumber) && line2[depthNumber] !== separator && splitString[j - 1] === '\n' && splitString[j + 1] === '\n') {
-          // If new heading starting the we add up to first iterator to not go through same lines again and break the current cycle
-          i = j - 1;
-          break;
-        } else {
-          // If it's still not new heading we adding up to have string with all current heading info
-          headingString += line2;
-        }
+  for (let i = 0; i < splitString.length; i += 1) {
+    const line = splitString[i];
+
+    if (!isHeadingLine(line, depthNumber, splitString, i)) continue;
+
+    // Collect all content under this heading until the next same-level heading
+    let headingString = splitString[i + 1];
+    for (let j = i + 2; j < splitString.length; j += 1) {
+      const line2 = splitString[j];
+      if (isHeadingLine(line2, depthNumber, splitString, j)) {
+        i = j - 1;
+        break;
       }
-      // If current heading doesn't have his own text and exactly after it goes subheading then we adding as much new lines as there has to be
-      const x = headingString.search(`\n${separator.repeat(depthNumber + 1)}`);
-      let simpleText = '';
-      if (x > -1) {
-        simpleText = headingString.slice(0, x);
-      }
-      // Creating new node which
-      // value is current heading,
-      // headingString is all text that goes under current heading
-      // simpleText is text that doesn't have subheading and go under current heading but not its subheadings
-      const newNode = new Node(line, headingString, simpleText);
-      parentNode.addChild(newNode); // Connecting newly created node to its parent
-      // Calling same method (recursion) with different params:
-      // headingString is text that goes under current heading and we will look for subheadings in it
-      // lines splitter
-      // newNode - our newly created node will be parent node for its subheadings
-      // depthNumber - increasing it to look for one heading separator more (## instead of # and so on)
-      setNodes(headingString, /(\n)/, newNode, depthNumber + 1);
+      headingString += line2;
     }
+
+    // simpleText = content before first subheading at depth+1
+    const subHeadingPattern = `\n${SEPARATOR.repeat(depthNumber + 1)}`;
+    const subIdx = headingString.indexOf(subHeadingPattern);
+    const simpleText = subIdx >= 0 ? headingString.slice(0, subIdx) : '';
+
+    const newNode = new Node(line, headingString, simpleText);
+    parentNode.addChild(newNode);
+    setNodes(headingString, newNode, depthNumber + 1);
   }
-};
+}
 
 /**
- * @param root - current node
+ * Sort each node's children alphabetically by heading text (locale-aware).
  */
-// Going throughout all nodes and sorting them and
-// setting lowest (the ones that don't have children (subheadings)) children simpleText values
-const setLowestChildrenSimpleTextAndSort = (root) => {
-  if (!root.getChildren().length) return; // If current node doesn't have children we break iteration
-  sortNodeChildren(root); // Calling sorting method
-  for (let i = 0; i < root.getChildren().length; i += 1) { // Going throughout all current node children
-    const currentNode = root.getChildren()[i]; // Setting current child node
+function sortNodeChildren(root) {
+  if (!root.getChildren().length) return;
+  const children = [...root.getChildren()];
+  children.sort((a, b) => (a.value || '').localeCompare(b.value || '', undefined, { sensitivity: 'base' }));
+  root.setChildren(children);
+}
 
-    // If current child has children of his own
-    if (currentNode.getChildren().length) {
-      // If current child has simpleText
-      if (currentNode.getSimpleText()) {
-        // We remove first character of it and add new line at the end (stupid but works)
-        const text = `${currentNode.getSimpleText().substring(1)}\n`;
-        // And setting updated simpleText to current node
-        currentNode.setSimpleText(text);
+/**
+ * Set simpleText on leaf nodes (content only) and sort the tree in-place.
+ */
+function setLowestChildrenSimpleTextAndSort(root) {
+  if (!root.getChildren().length) return;
+  sortNodeChildren(root);
+  for (let i = 0; i < root.getChildren().length; i += 1) {
+    const child = root.getChildren()[i];
+    if (child.getChildren().length) {
+      if (child.getSimpleText()) {
+        const text = child.getSimpleText().replace(/^\n/, '') + '\n';
+        child.setSimpleText(text);
       }
-      setLowestChildrenSimpleTextAndSort(currentNode); // Calling same method but with currentNode as root
+      setLowestChildrenSimpleTextAndSort(child);
     } else {
-      // If current node doesn't have children then setting its textValue as simpleText just without first character
-      currentNode.setSimpleText(currentNode.getTextValue().substring(1));
+      const textValue = child.getTextValue();
+      child.setSimpleText(textValue ? textValue.replace(/^\n/, '') : '');
     }
   }
-};
+}
 
 /**
- * @param root - currentNode
+ * Serialize tree back to markdown string.
  */
-// Sorting current node children alphabetically
-const sortNodeChildren = (root) => {
-  if (!root.getChildren().length) return; // If current node doesn't have children we break iteration
-  const updatedChildren = [...root.getChildren()]; // Creating new array with currentNode children
-  updatedChildren.sort((a, b) => (a.value > b.value ? 1 : -1)); // Sorting new array headings alphabetically
-  root.setChildren(updatedChildren); // Setting current node children as newly sorted array
-};
-
-// Global variable that contains sorted result
-let result = '';
-
-/**
- * @param children - current node children
- */
-// Joining all nodes values (headings) and simpleTexts (text under headings)
-const getTextFromNode = (children) => {
-  for (let i = 0; i < children.length; i += 1) { // Going throughout all current node children
-    result = result + children[i].getValue() + children[i].getSimpleText(); // Adding value and simpleText value to final result
-    getTextFromNode(children[i].getChildren()); // Calling same method but with current node children as new current node children
+function getTextFromNode(children) {
+  let out = '';
+  for (let i = 0; i < children.length; i += 1) {
+    out += children[i].getValue() + children[i].getSimpleText();
+    out += getTextFromNode(children[i].getChildren());
   }
-};
+  return out;
+}
 
-const rootNode = new Node('root'); // Creating root node which will contain main headings (#) as children
-setNodes(inputStringValue, /(\n)/, rootNode, 1); // converting input text to nodes tree
-setLowestChildrenSimpleTextAndSort(rootNode); // Sorting and setting simpleText as values
-getTextFromNode(rootNode.getChildren()); // Joining tree to string which will be final result
-console.log(rootNode);
-console.log(inputStringValue);
-console.log(result);
+/**
+ * Recursive sort: build tree, sort at every level, serialize.
+ */
+function sortRecursive(inputString) {
+  const root = new Node('root');
+  setNodes(inputString, root, 1);
+  setLowestChildrenSimpleTextAndSort(root);
+  return getTextFromNode(root.getChildren());
+}
+
+/**
+ * Single-level sort: split by the given header prefix, sort sections, rejoin.
+ */
+function sortSingleLevel(inputString, levelPrefix) {
+  const needle = '\n' + levelPrefix + ' ';
+  const parts = inputString.split(needle);
+  if (parts.length <= 1) return inputString;
+  const first = parts[0];
+  const rest = parts.slice(1);
+  rest.sort((a, b) => (levelPrefix + ' ' + a).localeCompare(levelPrefix + ' ' + b, undefined, { sensitivity: 'base' }));
+  return first + rest.map((p) => needle + p).join('');
+}
+
+/**
+ * Sort markdown headers in the input string.
+ *
+ * @param {string} input - Raw markdown text
+ * @param {{ level?: number | 'all' }} options - level: 1..6 to sort only that header level, or 'all' for recursive sort
+ * @returns {string} Sorted markdown
+ */
+function sortMarkdownHeaders(input, options = {}) {
+  const level = options.level === undefined ? 'all' : options.level;
+
+  if (level === 'all') {
+    return sortRecursive(input || '');
+  }
+
+  const n = Number(level);
+  if (!Number.isInteger(n) || n < 1 || n > 6) {
+    return input || '';
+  }
+  const prefix = SEPARATOR.repeat(n);
+  return sortSingleLevel(input || '', prefix);
+}
+
+// Export for Node/ESM and browser
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { sortMarkdownHeaders, Node, setNodes, sortNodeChildren, getTextFromNode, setLowestChildrenSimpleTextAndSort };
+}
+if (typeof window !== 'undefined') {
+  window.sortMarkdownHeaders = sortMarkdownHeaders;
+}
