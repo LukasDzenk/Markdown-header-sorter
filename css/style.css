@@ -648,3 +648,39 @@ body {
 	color: var(--text-muted);
 	margin: 0 0.5rem;
 }
+
+/* Easter egg — music play button bottom left */
+.easter-egg-btn {
+	position: fixed;
+	bottom: 1rem;
+	left: 1rem;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
+	background: var(--bg-card);
+	color: var(--text-muted);
+	cursor: pointer;
+	box-shadow: var(--shadow);
+	transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.easter-egg-btn:hover {
+	color: var(--accent);
+	background: var(--bg-input);
+	border-color: var(--accent);
+}
+
+.easter-egg-btn:focus-visible {
+	outline: var(--focus-ring);
+	outline-offset: var(--focus-offset);
+}
+
+.easter-egg-btn__icon {
+	display: block;
+}
