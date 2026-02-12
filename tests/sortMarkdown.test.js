@@ -3,7 +3,7 @@
  * Run: node sortMarkdown.test.js
  */
 
-const { sortMarkdownHeaders } = require('./recursiveSort.js');
+const { sortMarkdownHeaders } = require('../js/recursiveSort.js');
 
 function assertEqual(actual, expected, message) {
   const a = actual.replace(/\r/g, '');

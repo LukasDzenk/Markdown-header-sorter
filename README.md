@@ -47,7 +47,7 @@ Then open **http://localhost:3000** in your browser.
 The sorting logic is in `recursiveSort.js` and can be used in Node:
 
 ```javascript
-const { sortMarkdownHeaders } = require('./recursiveSort.js');
+const { sortMarkdownHeaders } = require('./js/recursiveSort.js');
 
 const markdown = `
 # B
@@ -72,25 +72,31 @@ console.log(sortMarkdownHeaders(markdown, { level: 'all' }));
 Run the test suite (Node):
 
 ```bash
-node sortMarkdown.test.js
+node tests/sortMarkdown.test.js
 ```
 
 ## Project structure
 
 ```
-├── index.html          # Single-page app (UI + script load)
-├── server.js           # Local static server (node server.js)
-├── recursiveSort.js    # Core: parse, sort, serialize (browser + Node)
-├── sortMarkdown.test.js
+├── index.html
+├── server.js              # Local static server (node server.js)
 ├── css/
 │   ├── normalize.css
 │   └── style.css
-├── images/             # Favicons, PWA icons, web manifest
+├── js/
+│   ├── recursiveSort.js   # Core: parse, sort, serialize (browser + Node)
+│   └── app.js             # Page logic: examples, toolbar, persistence
+├── tests/
+│   └── sortMarkdown.test.js
+├── images/                # Favicons, PWA icons, web manifest
+├── assets/
+│   └── audio/            # Easter egg audio
+├── archive/             # Old backup (e.g. index-original.html)
 ├── sitemap.xml
 └── robots.txt
 ```
 
-No build step; plain HTML and CSS.
+Vanilla JS and CSS; no build step.
 
 ## Author
 
