@@ -123,6 +123,7 @@ Content.`
 	}
 	textAreaInput.addEventListener('input', function () {
 		wordCounter.textContent = 'Characters: ' + pad(this.value.length, 6) + '  |  Words: ' + pad(countWords(this.value), 4);
+		inputTextProcessing();
 	});
 
 	const radioButtons = document.querySelectorAll('.radioButton');
@@ -156,6 +157,7 @@ Content.`
 		if (savedInput != null && savedInput !== '') textAreaInput.value = savedInput;
 		const savedOutput = localStorage.getItem('output');
 		if (savedOutput != null && savedOutput !== '') textAreaOutput.value = savedOutput;
+		inputTextProcessing();
 	})();
 
 	function playEasterEgg() {
