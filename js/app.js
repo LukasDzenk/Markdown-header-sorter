@@ -106,6 +106,7 @@ Content.`
 	document.getElementById('clearButtonId').addEventListener('click', function () {
 		textAreaInput.value = '';
 		textAreaOutput.value = '';
+		inputTextProcessing();
 	});
 
 	document.getElementById('copyResultButtonId').addEventListener('click', function () {
@@ -121,9 +122,15 @@ Content.`
 	function pad(str, len) {
 		return ('' + str).padEnd(len, '\u00A0');
 	}
-	textAreaInput.addEventListener('input', function () {
-		wordCounter.textContent = 'Characters: ' + pad(this.value.length, 6) + '  |  Words: ' + pad(countWords(this.value), 4);
+	function syncOutput() {
+		wordCounter.textContent = 'Characters: ' + pad(textAreaInput.value.length, 6) + '  |  Words: ' + pad(countWords(textAreaInput.value), 4);
 		inputTextProcessing();
+	}
+	textAreaInput.addEventListener('input', syncOutput);
+	textAreaInput.addEventListener('change', syncOutput);
+	textAreaInput.addEventListener('keyup', syncOutput);
+	textAreaInput.addEventListener('keydown', function () {
+		setTimeout(syncOutput, 0);
 	});
 
 	const radioButtons = document.querySelectorAll('.radioButton');
@@ -142,12 +149,19 @@ Content.`
 	});
 
 	function inputTextProcessing() {
-		localStorage.setItem('input', textAreaInput.value);
-		const raw = document.querySelector('.activeRadioButton').value;
+		const input = textAreaInput.value;
+		localStorage.setItem('input', input);
+		const activeBtn = document.querySelector('.activeRadioButton');
+		const raw = activeBtn ? activeBtn.value : 'all';
 		const level = raw === 'all' ? 'all' : { '#': 1, '##': 2, '###': 3, '####': 4, '#####': 5, '######': 6 }[raw];
-		const result = typeof window.sortMarkdownHeaders === 'function'
-			? window.sortMarkdownHeaders(textAreaInput.value, { level: level })
-			: '';
+		let result = '';
+		try {
+			result = typeof window.sortMarkdownHeaders === 'function'
+				? window.sortMarkdownHeaders(input, { level: level })
+				: '';
+		} catch (e) {
+			result = '';
+		}
 		textAreaOutput.value = result === '' && level !== 'all' ? 'Selected header level was not found' : result;
 		localStorage.setItem('output', textAreaOutput.value);
 	}
@@ -155,9 +169,7 @@ Content.`
 	(function () {
 		const savedInput = localStorage.getItem('input');
 		if (savedInput != null && savedInput !== '') textAreaInput.value = savedInput;
-		const savedOutput = localStorage.getItem('output');
-		if (savedOutput != null && savedOutput !== '') textAreaOutput.value = savedOutput;
-		inputTextProcessing();
+		syncOutput();
 	})();
 
 	function playEasterEgg() {

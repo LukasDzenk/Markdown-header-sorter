@@ -40,7 +40,13 @@ From the project root, start the included Node server (no extra packages):
 node server.js
 ```
 
-Then open **http://localhost:3000** in your browser.
+Then open **http://localhost:3000** in your browser. To use another port, pass it as an argument or set `PORT`:
+
+```bash
+node server.js 8080
+# or
+PORT=8080 node server.js
+```
 
 ### Core logic (Node)
 

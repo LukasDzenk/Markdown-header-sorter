@@ -126,14 +126,13 @@ function setLowestChildrenSimpleTextAndSort(root) {
   for (let i = 0; i < root.getChildren().length; i += 1) {
     const child = root.getChildren()[i];
     if (child.getChildren().length) {
-      if (child.getSimpleText()) {
-        const text = child.getSimpleText().replace(/^\n/, '') + '\n';
-        child.setSimpleText(text);
-      }
+      const raw = child.getSimpleText() ? child.getSimpleText().replace(/^\n+/, '') : '';
+      child.setSimpleText(raw ? '\n\n' + raw + '\n' : '\n\n');
       setLowestChildrenSimpleTextAndSort(child);
     } else {
       const textValue = child.getTextValue();
-      child.setSimpleText(textValue ? textValue.replace(/^\n/, '') : '');
+      const trimmed = textValue ? textValue.replace(/^\n+/, '') : '';
+      child.setSimpleText(trimmed ? '\n\n' + trimmed : '');
     }
   }
 }
@@ -175,7 +174,8 @@ function sortSingleLevel(inputString, levelPrefix) {
   const first = parts[0];
   const rest = parts.slice(1);
   rest.sort((a, b) => (prefixWithSpace + a).localeCompare(prefixWithSpace + b, undefined, { sensitivity: 'base' }));
-  const result = first + rest.map((p) => needle + p).join('');
+  const blankBeforeSection = '\n\n' + levelPrefix + ' ';
+  const result = first + rest.map((p) => blankBeforeSection + p).join('');
   return normalized !== inputString ? result.replace(/^\n/, '') : result;
 }
 

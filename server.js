@@ -2,7 +2,14 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 3000;
+// Command:
+// node server.js 3005
+
+const defaultPort = 3000;
+const portArg = process.argv[2];
+const PORT = portArg != null && /^\d+$/.test(portArg)
+  ? parseInt(portArg, 10)
+  : (process.env.PORT ? parseInt(process.env.PORT, 10) : defaultPort) || defaultPort;
 const MIME = {
   '.html': 'text/html',
   '.css': 'text/css',
