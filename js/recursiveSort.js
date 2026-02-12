@@ -57,12 +57,13 @@ const SPLITTER = /(\n)/;
 /**
  * Returns true if the line is a heading at the given depth.
  * Requirement: newline immediately before and after the heading line in the split array.
+ * Start of document (index === 0) is treated as having a newline before so the first line can be a heading.
  */
 function isHeadingLine(line, depthNumber, splitString, index) {
   if (!line || line.length <= depthNumber) return false;
   const prefix = SEPARATOR.repeat(depthNumber);
   const nextChar = line[depthNumber];
-  const hasNewlineBefore = index > 0 && splitString[index - 1] === '\n';
+  const hasNewlineBefore = index === 0 || (index > 0 && splitString[index - 1] === '\n');
   const hasNewlineAfter = index < splitString.length - 1 && splitString[index + 1] === '\n';
   return (
     line.slice(0, depthNumber) === prefix &&
@@ -139,10 +140,12 @@ function setLowestChildrenSimpleTextAndSort(root) {
 
 /**
  * Serialize tree back to markdown string.
+ * Ensures a newline between sibling sections when the previous section has no trailing newline.
  */
 function getTextFromNode(children) {
   let out = '';
   for (let i = 0; i < children.length; i += 1) {
+    if (i > 0 && !out.endsWith('\n')) out += '\n\n';
     out += children[i].getValue() + children[i].getSimpleText();
     out += getTextFromNode(children[i].getChildren());
   }
@@ -161,15 +164,19 @@ function sortRecursive(inputString) {
 
 /**
  * Single-level sort: split by the given header prefix, sort sections, rejoin.
+ * If the document starts with a heading at this level, prepend newline so it is included in the sort.
  */
 function sortSingleLevel(inputString, levelPrefix) {
   const needle = '\n' + levelPrefix + ' ';
-  const parts = inputString.split(needle);
+  const prefixWithSpace = levelPrefix + ' ';
+  const normalized = inputString.startsWith(prefixWithSpace) ? '\n' + inputString : inputString;
+  const parts = normalized.split(needle);
   if (parts.length <= 1) return inputString;
   const first = parts[0];
   const rest = parts.slice(1);
-  rest.sort((a, b) => (levelPrefix + ' ' + a).localeCompare(levelPrefix + ' ' + b, undefined, { sensitivity: 'base' }));
-  return first + rest.map((p) => needle + p).join('');
+  rest.sort((a, b) => (prefixWithSpace + a).localeCompare(prefixWithSpace + b, undefined, { sensitivity: 'base' }));
+  const result = first + rest.map((p) => needle + p).join('');
+  return normalized !== inputString ? result.replace(/^\n/, '') : result;
 }
 
 /**
