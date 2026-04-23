@@ -1,10 +1,10 @@
 # Markdown header sorter
 
-Sort markdown sections alphabetically by heading text. Use it [online](https://lukasdzn.github.io/Markdown-header-sorter/) or run the script in Node. No build step, no dependencies.
+Sort markdown sections alphabetically by heading text. Use it [online](https://markdown-header-sorter.lukasdzenk.com/) or run the script in Node. No build step, no dependencies.
 
 ## Try it
 
-**[Open the app →](https://lukasdzn.github.io/Markdown-header-sorter/)**
+**[Open the app →](https://markdown-header-sorter.lukasdzenk.com/)**
 
 Paste markdown, choose a header level (# to ######) or “All headers,” and get sections sorted A–Z. Copy the result with one click.
 
